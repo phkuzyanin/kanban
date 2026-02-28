@@ -3,25 +3,26 @@ using System.ComponentModel.DataAnnotations;
 namespace Kanban.Models;
 
 
-public class Task
+public class Card
 {
-    [Required]
     public int Id { get; set; } //id задачи обязательно для заполнения
     [Required]
-    public string? Title { get; set; } //заголовок задачи, обязательно для заполнения
+    public string Title { get; set; } //заголовок задачи, обязательно для заполнения
     public string? Content { get; set; } //содержание задачи
     public DateTime CreationDate { get; set; }//время создания задачи
     public DateTime DueDate { get; set; } //время окончания задачи
+    //public int ColumnId { get; set; }
+    //public virtual Column Column { get; set; }
+    
+    protected Card(){}  //конструктор для EF
 
-    protected Task(){}  //конструктор для EF
-
-    public Task(int id, string title, string content, DateTime dueDate)
+    public Card(string title, string content, DateTime dueDate)
     {
-        Id = id;
-        Title = title;
+
+        Title = title ?? throw new ArgumentNullException(nameof(title));
         Content = content;
         CreationDate = DateTime.UtcNow;
         DueDate = dueDate;
     }
 
-};
+}
